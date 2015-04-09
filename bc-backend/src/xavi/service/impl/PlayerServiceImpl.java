@@ -68,13 +68,7 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	public Player findByName(String name) {
-		Iterable<Player> players = playerRepository.findAll();
-		for(Player player : players){
-			if(player.getName().equals(name)){
-				return player;
-			}
-		}
-		return null;
+		return playerRepository.findUniquePlayerByName(name);
 	}
 	
 	public List<Player> findAllByName(String name){

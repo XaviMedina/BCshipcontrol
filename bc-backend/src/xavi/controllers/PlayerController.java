@@ -109,6 +109,23 @@ public class PlayerController {
 		
 	}
 	
+	@RequestMapping("/addShip")
+	@ResponseBody
+	public String addShip(@RequestParam("player_name") String player_name,@RequestParam("ship_name") String shipName,
+			@RequestParam("ship_type") String shipType){
+		Player player = playerService.findByName(player_name);
+		if(player == null){
+			return "fail";
+		}
+		Ship ship = new Ship();
+		ship.setName(shipName);
+		ship.setPlayer(player);
+		ship.setType(ShipType.valueOf(shipType));
+		ship = shipService.create(ship);
+		return "success";
+		
+	}
+	
 	@RequestMapping("/search")
 	@ResponseBody
 	public List<Player> searchPlayers(@RequestParam("name")String pattern){
