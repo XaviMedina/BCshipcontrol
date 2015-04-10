@@ -16,7 +16,7 @@ import xavi.model.ShipType;
 import xavi.service.PlayerService;
 import xavi.service.ShipService;
 
-@RequestMapping("/operations")
+@RequestMapping("/overwolf-service")
 @Controller
 public class PlayerController {
 
@@ -117,7 +117,6 @@ public class PlayerController {
 		ship.setType(ShipType.valueOf(shipType));
 		ship = shipService.create(ship);
 		return "success";
-		
 	}
 	
 	@RequestMapping("/search")

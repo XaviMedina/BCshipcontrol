@@ -10,9 +10,9 @@ import xavi.model.Player;
 
 public interface PlayerRepository extends CrudRepository<Player,Long>{
 
-	@Query("SELECT p FROM Player p WHERE LOWER(p.name) LIKE %LOWER(:name)%")
+	@Query("SELECT p FROM Player p WHERE LOWER(p.name) LIKE %:name%")
 	public List<Player> findByName(@Param("name") String name);
 	
-	@Query("SELECT p FROM Player p WHERE p.name == :name")
+	@Query("SELECT p FROM Player p WHERE LOWER(p.name) = LOWER(:name)")
 	public Player findUniquePlayerByName(@Param("name") String name);
 }
