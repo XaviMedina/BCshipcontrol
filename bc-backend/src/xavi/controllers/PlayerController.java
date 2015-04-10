@@ -47,14 +47,14 @@ public class PlayerController {
 			@RequestParam("faction") String faction){
 		Player player = playerService.findById(id);
 		if (player == null){
-			return "Player does not exist";
+			return "fail";
 		}
 		else{
 			player.setName(name);
 			player.setGuild(guild);
 			player.setFaction(Faction.valueOf(faction));
 			playerService.update(player);
-			return "Player updated";
+			return "success";
 		}
 	}
 	
@@ -76,34 +76,28 @@ public class PlayerController {
 			ship.setType(ShipType.valueOf(ship_type));
 			ship.setPlayer(player);
 			shipService.create(ship);
-			response =  "1.Player added succesfully";
+			response =  "success_1";
 		}
-		else if(player.getShips() != null && player.getShips().size() > 0){
+		else{
 			boolean shipAlreadyAdded = false;
-			for(Ship ship: player.getShips()){
-				if(ship.getName().equals(ship_name) && ship.getType().equals(ShipType.valueOf(ship_type))){
-					shipAlreadyAdded = true;
+			if(player.getShips() != null && player.getShips().size() > 0){
+				for(Ship ship: player.getShips()){
+					if(ship.getName().equals(ship_name) && ship.getType().equals(ShipType.valueOf(ship_type))){
+						shipAlreadyAdded = true;
+					}
+				}
+				if(shipAlreadyAdded){
+					response = "success_2";
 				}
 			}
-			if(shipAlreadyAdded){
-				response = "2.This player and ship were already added";
-			}
-			else{
+			if(player.getShips() == null || shipAlreadyAdded == false){
 				Ship ship = new Ship();
 				ship.setName(ship_name);
 				ship.setType(ShipType.valueOf(ship_type));
 				ship.setPlayer(player);
 				shipService.create(ship);
-				response = "3.Player already exists, added new ship to it";
+				response = "success_3";
 			}
-		}
-		else{
-			Ship ship = new Ship();
-			ship.setName(ship_name);
-			ship.setType(ShipType.valueOf(ship_type));
-			ship.setPlayer(player);
-			shipService.create(ship);
-			response = "4.Player already exists, added new ship to it";
 		}
 		return response;
 		
